@@ -1,8 +1,10 @@
 {
 	"show_video": false,
 	"use_dropbox": false,
-	"telegram_access_token": "1322944454:AAFY7dMpX4g1Kl6lPqqRhzKBjk5lVUnqHWY",
-	"reboot_access_token": 33432901,
+	"dropbox_access_token": "YOUR_DROPBOX_KEY",
+	"dropbox_base_path": "YOUR_DROPBOX_PATH",
+	"telegram_access_token": "YOUR_BOT_TOKEN",
+	"reboot_access_token": "YOUR_AUTH_USER_TO_REBOOT",
 	"min_upload_seconds": 10.0,
 	"min_motion_frames": 2.5,
 	"camera_warmup_time": 2.5,
@@ -10,5 +12,5 @@
 	"resolution": [640, 480],
 	"fps": 16,
 	"min_area": 5000,
-	"relay-0": 17
+	"relay-0": "RELAY_GPIO"
 }

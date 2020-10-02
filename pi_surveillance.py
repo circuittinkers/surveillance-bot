@@ -3,6 +3,7 @@ import os
 import threading
 import emoji
 import json
+import dropbox
 from telegram.ext import CommandHandler, Updater, MessageHandler, Filters
 import time
 import datetime
@@ -33,6 +34,13 @@ warnings.filterwarnings("ignore")
 conf = json.load(open(args["conf"]))
 
 client = Updater(token=conf["telegram_access_token"], use_context=True)
+db_client = None
+
+# check to see if the Dropbox should be used
+if conf["use_dropbox"]:
+	# connect to dropbox and start the session authorization process
+	db_client = dropbox.Dropbox(conf["dropbox_access_token"])
+	print("[SUCCESS] dropbox account linked")
 
 # init the GPIO
 try:
@@ -324,15 +332,14 @@ for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True
 					t.cleanup()
 				
 			if conf["use_dropbox"]:
-				# write the image to temp file
+				# write the image to temporary file
 				t = TempImage()
 				cv2.imwrite(t.path, frame)
-
-				# upload the image to Telegram
-				# then clear the temp file
-				print("[UPLOADING] {}".format(ts))
-				# source for telegram upload
-
+				# upload the image to Dropbox and cleanup the tempory image
+				print("[UPLOAD] {}".format(ts))
+				path = "/{base_path}/{timestamp}.jpg".format(
+					base_path=conf["dropbox_base_path"], timestamp=ts)
+				db_client.files_upload(open(t.path, "rb").read(), path)
 				t.cleanup()
 
 			# update the last uploaded timestamp
