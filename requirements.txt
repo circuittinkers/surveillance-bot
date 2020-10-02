@@ -1,0 +1,15 @@
+certifi==2020.6.20
+cffi==1.14.3
+cryptography==3.1.1
+decorator==4.4.2
+emoji==0.6.0
+imutils==0.5.3
+keyboard==0.13.5
+numpy==1.19.2
+opencv-contrib-python==4.1.0.25
+picamera==1.13
+pycparser==2.20
+python-telegram-bot==12.8
+RPi.GPIO==0.7.0
+six==1.15.0
+tornado==6.0.4

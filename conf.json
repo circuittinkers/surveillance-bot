@@ -1,0 +1,14 @@
+{
+	"show_video": false,
+	"use_dropbox": false,
+	"telegram_access_token": "1322944454:AAFY7dMpX4g1Kl6lPqqRhzKBjk5lVUnqHWY",
+	"reboot_access_token": 33432901,
+	"min_upload_seconds": 10.0,
+	"min_motion_frames": 2.5,
+	"camera_warmup_time": 2.5,
+	"delta_thresh": 5,
+	"resolution": [640, 480],
+	"fps": 16,
+	"min_area": 5000,
+	"relay-0": 17
+}
