@@ -103,7 +103,7 @@ def alarm(update, context):
 		context.bot.send_message(chat_id= update.effective_chat.id,
 			text="Triggering alarm... /alarm to disable.")
 		alarm_status= True
-		GPIO.output(RELAY_1_GPIO,GPIO.HIGH)
+		GPIO.output(RELAY_1_GPIO,GPIO.LOW)
 		print("[CONF] Alarm enabled.")
 		
 def update(update, context):
@@ -222,13 +222,16 @@ def main():
 	print("[Notice] Bot is now online")
 	with open(args['subs'],'r') as f:
 		subs = json.load(f)
-	if "subscribers" in subs:
-		for key in subs['subscribers']:
-			if key['user_name'] == 'name':
-				pass
-			else:
-				client.bot.send_message(chat_id=key['user_id'],
-					text="[Notice] Surveillance bot is now online!")
+	try:
+		if "subscribers" in subs:
+			for key in subs['subscribers']:
+				if key['user_name'] == 'name':
+					pass
+				else:
+					client.bot.send_message(chat_id=key['user_id'],
+						text="[Notice] Surveillance bot is now online!")
+	except:
+		print("[WARN] Subscriber {} may/had blocked the bot. Update the subscriber list!".format(key['user_name']))
 
 	client.start_polling()
 	
@@ -324,11 +327,14 @@ for f in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True
 					t = TempImage()
 					cv2.imwrite(t.path, frame)
 					for key in subs['subscribers']:
-						if key['user_name'] == 'name':
-							pass
-						else:
-							update_to_user(key['user_id'],t.path)
-							print("[UPDATING] Uploading to {}".format(key['user_name']))
+						try:
+							if key['user_name'] == 'name':
+								pass
+							else:
+								update_to_user(key['user_id'],t.path)
+								print("[UPDATING] Uploading to {}".format(key['user_name']))
+						except:
+							print("[WARN] Subscriber {} may/had blocked the bot. Update the subscriber list!".format(key['user_name']))
 					t.cleanup()
 				
 			if conf["use_dropbox"]:
